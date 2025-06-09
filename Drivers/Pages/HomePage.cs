@@ -23,10 +23,6 @@ namespace Mars_Project_Automation.Drivers.Pages
 
         public void NavigateToSkillSection()
         {
-            var profileTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//*[@id='account-profile-section']/div/section[1]/div/a[2]")));
-            profileTab.Click();
-
             var skillsOption = _wait.Until(ExpectedConditions.ElementToBeClickable(
                 By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[1]/a[2]")));
             skillsOption.Click();
