@@ -1,59 +1,49 @@
-﻿using Mars_Project_Automation.Drivers.Pages;
+﻿using MarsProjectAutomation.Drivers.Pages;
 using OpenQA.Selenium;
 using Reqnroll;
-using System.Threading;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
-[Binding]
-public class LanguageHooks
+namespace MarsProjectAutomation.Drivers.Hooks
 {
-    private readonly IWebDriver _driver;
-
-    public LanguageHooks(IWebDriver driver)
+    [Binding]
+    public class LanguageHooks
     {
-        _driver = driver;
-    }
+        private readonly ScenarioContext _scenarioContext;
+        private readonly IWebDriver _driver;
+        private readonly List<string> _testLanguages;
 
-    [BeforeScenario]
-    public void CleanupLanguagesBeforeScenario()
-    {
-        try
+        public LanguageHooks(ScenarioContext scenarioContext, IWebDriver driver)
         {
-            var profilePage = new ProfilePage(_driver);
+            _scenarioContext = scenarioContext;
+            _driver = driver;
+            _testLanguages = new List<string>();
+        }
 
-            // Retry navigating to language section with wait
-            for (int i = 0; i < 2; i++)
+        [BeforeScenario("@Languages")]
+        public void BeforeScenario()
+        {
+            _scenarioContext["TestLanguages"] = _testLanguages;
+        }
+
+        [AfterScenario("@Languages")]
+        public void AfterScenario()
+        {
+            var langPage = new LanguagePage(_driver);
+
+            foreach (var language in _testLanguages.Distinct())
             {
                 try
                 {
-                    profilePage.NavigateToLanguageSection();
-                    break;
+                    langPage.NavigateToLanguageSection();
+                    langPage.DeleteLanguage(language);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Thread.Sleep(2000);
+                    Console.WriteLine($"[Cleanup] Failed to delete language '{language}': {ex.Message}");
                 }
             }
-
-            // Languages to clean up
-            var testLanguages = new[]
-            {
-                "English", "Hindi", "German", "French", "Spanish",
-                "Urdu", "@@@@", "1234", "!@#$%",
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            };
-
-            foreach (var lang in testLanguages)
-            {
-                profilePage.DeleteLanguage(lang);
-                Thread.Sleep(500); // Give UI time to update after each delete
-            }
-
-            Console.WriteLine("✅ Cleanup completed before scenario.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("❌ Error during cleanup: " + ex.Message);
         }
     }
 }

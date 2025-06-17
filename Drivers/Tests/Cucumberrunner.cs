@@ -1,9 +1,10 @@
-﻿using NUnit.Framework;
+﻿
+using NUnit.Framework;
 using Reqnroll;
 using Reqnroll.Infrastructure;
 using Reqnroll.NUnit;
 
-namespace Mars_Project_Automation.Drivers.Tests
+namespace MarsProjectAutomation.Drivers.Tests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
@@ -11,3 +12,4 @@ namespace Mars_Project_Automation.Drivers.Tests
     {
     }
 }
+
