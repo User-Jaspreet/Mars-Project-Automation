@@ -2,9 +2,8 @@
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
-using static System.Collections.Specialized.BitVector32;
 
-namespace Mars_Project_Automation.Drivers.Pages
+namespace MarsProjectAutomation.Drivers.Pages
 {
     public class HomePage(IWebDriver driver)
     {
@@ -29,7 +28,3 @@ namespace Mars_Project_Automation.Drivers.Pages
         }
     }
 }
-
-
-
-

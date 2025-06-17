@@ -3,11 +3,11 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
 
-namespace Mars_Project_Automation.Drivers.Pages
+namespace MarsProjectAutomation.Drivers.Pages
 {
     public class LoginPage(IWebDriver driver)
     {
-        private readonly WebDriverWait _wait = new(driver, TimeSpan.FromSeconds(10));
+        private readonly WebDriverWait _wait = new(driver, TimeSpan.FromSeconds(20));
 
         public void Login(string username, string password)
         {
@@ -35,4 +35,3 @@ namespace Mars_Project_Automation.Drivers.Pages
         }
     }
 }
-

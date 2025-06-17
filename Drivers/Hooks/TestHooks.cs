@@ -4,7 +4,7 @@ using OpenQA.Selenium.Chrome;
 using Reqnroll;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 
-namespace Mars_Project_Automation.Drivers.Hooks
+namespace MarsProjectAutomation.Drivers.Hooks
 {
     public static class TestSetup
     {
@@ -24,4 +24,3 @@ namespace Mars_Project_Automation.Drivers.Hooks
         }
     }
 }
-
