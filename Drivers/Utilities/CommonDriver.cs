@@ -1,14 +1,16 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
 
-namespace MarsProjectAutomation.Drivers.Utilities
+public class CommonDriver
 {
-    internal class CommonDriver
+    private readonly IWebDriver _driver;
+
+    public CommonDriver(IWebDriver driver)
     {
-        public CommonDriver() { }
+        _driver = driver;
+    }
+
+    public IWebDriver GetDriver()
+    {
+        return _driver;
     }
 }
