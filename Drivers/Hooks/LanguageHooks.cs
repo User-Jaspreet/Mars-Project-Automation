@@ -2,47 +2,48 @@
 using OpenQA.Selenium;
 using Reqnroll;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MarsProjectAutomation.Drivers.Hooks
 {
     [Binding]
     public class LanguageHooks
     {
-        private readonly ScenarioContext _scenarioContext;
         private readonly IWebDriver _driver;
-        private readonly List<string> _testLanguages;
 
-        public LanguageHooks(ScenarioContext scenarioContext, IWebDriver driver)
+        public LanguageHooks(IWebDriver driver)
         {
-            _scenarioContext = scenarioContext;
             _driver = driver;
-            _testLanguages = new List<string>();
         }
 
         [BeforeScenario("@Languages")]
-        public void BeforeScenario()
+        public void CleanBeforeScenario()
         {
-            _scenarioContext["TestLanguages"] = _testLanguages;
+            try
+            {
+                Console.WriteLine("🧹 Cleaning languages BEFORE scenario...");
+                var langPage = new LanguagePage(_driver);
+                langPage.NavigateToLanguageSection();
+                langPage.CleanupAllLanguages();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ BeforeScenario cleanup failed: {ex.Message}");
+            }
         }
 
         [AfterScenario("@Languages")]
-        public void AfterScenario()
+        public void CleanAfterScenario()
         {
-            var langPage = new LanguagePage(_driver);
-
-            foreach (var language in _testLanguages.Distinct())
+            try
             {
-                try
-                {
-                    langPage.NavigateToLanguageSection();
-                    langPage.DeleteLanguage(language);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"[Cleanup] Failed to delete language '{language}': {ex.Message}");
-                }
+                Console.WriteLine("🧹 Cleaning languages AFTER scenario...");
+                var langPage = new LanguagePage(_driver);
+                langPage.NavigateToLanguageSection();
+                langPage.CleanupAllLanguages();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ AfterScenario cleanup failed: {ex.Message}");
             }
         }
     }
